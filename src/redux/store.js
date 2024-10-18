@@ -7,30 +7,24 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
-import storage from 'redux-persist/lib/storage'; // Default storage
-import { persistReducer, persistStore } from 'redux-persist'; // Make sure this is imported
+import storage from 'redux-persist/lib/storage';
+import { persistReducer, persistStore } from 'redux-persist';
 import { contactsReducer } from './contactsSlice';
 import { filterReducer } from './filterSlice';
 
 // Persist configuration
 const persistConfig = {
-  key: 'root', // Key to store persisted data
-  storage, // Storage mechanism
+  key: 'root',
+  storage,
 };
 
-// Combining the reducers
-const rootReducer = {
-  contacts: contactsReducer,
-  filter: filterReducer,
-};
-
-// Applying the persistReducer wrapper to rootReducer
+// Applying the persistReducer wrapper to contactsReducer
 const persistedReducer = persistReducer(persistConfig, contactsReducer);
 
 export const store = configureStore({
   reducer: {
-    contacts: persistedReducer, // Using persisted reducer for contacts
-    filter: filterReducer, // Not persisted
+    contacts: persistedReducer,
+    filter: filterReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
